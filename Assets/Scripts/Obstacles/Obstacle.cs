@@ -9,6 +9,8 @@ namespace Obstacles
 
         private void Update()
         {
+            if (!Game.IsPlaying) return;
+            
             Move();
         }
 

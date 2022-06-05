@@ -18,7 +18,7 @@ namespace Dino
         {
             if (other.TryGetComponent(out Obstacle obstacle))
             {
-                dino.Die();
+                Game.GameOver();
             }
         }
     }

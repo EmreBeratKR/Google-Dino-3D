@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+using Helpers;
 using UnityEngine;
 
-public class ScoreCounter : MonoBehaviour
+public class ScoreCounter : Scenegleton<ScoreCounter>
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    private const float ProgressToScore = 20f;
+    
+    private float score;
+    public float Score => Mathf.RoundToInt(score);
+    
         
-    }
+    private void Update()
+    {
+        if (!Game.IsPlaying) return;
+        
+        var deltaProgress = GlobalSpeed.Scale * Time.deltaTime;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        score += deltaProgress * ProgressToScore;
+
+        Debug.Log(Score);
     }
 }

@@ -15,6 +15,8 @@ public class GroundMover : MonoBehaviour
 
     private void Update()
     {
+        if (!Game.IsPlaying) return;
+        
         var textureOffset = groundMaterialCopy.mainTextureOffset;
 
         textureOffset += Vector2.left * (Time.deltaTime * speed * GlobalSpeed.Scale);

@@ -5,6 +5,7 @@ namespace Dino
     [RequireComponent(typeof(Rigidbody))]
     public class DinoMovement : MonoBehaviour
     {
+        [SerializeField] private DinoGroundChecker groundChecker;
         [SerializeField] private float gravityScale;
         [SerializeField] private float jumpForce;
         
@@ -25,7 +26,9 @@ namespace Dino
 
         private void Update()
         {
-            if (IsJump)
+            if (!Game.IsPlaying) return;
+            
+            if (IsJump && groundChecker.IsGrounded)
             {
                 body.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
             }
