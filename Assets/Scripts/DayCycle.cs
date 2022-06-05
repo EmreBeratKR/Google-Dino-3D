@@ -13,6 +13,16 @@ public class DayCycle : MonoBehaviour
     [Header("Sun Intensity")]
     [SerializeField] private float dayTimeSunIntensity;
     [SerializeField] private float nightTimeSunIntensity;
+
+    [Header("Flashlight")]
+    [SerializeField] private Light flashlight;
+    [SerializeField] private float dayTimeFlashlightIntensity;
+    [SerializeField] private float nightTimeFlashlightIntensity;
+    
+    [Header("Dino Light")]
+    [SerializeField] private Light dinoLight;
+    [SerializeField] private float dayTimeDinoLightIntensity;
+    [SerializeField] private float nightTimeDinoLightIntensity;
     
     [Space]
     [SerializeField, Range(0f, 1f)] private float time;
@@ -38,6 +48,8 @@ public class DayCycle : MonoBehaviour
     private void OnValidate()
     {
         sun.intensity = Mathf.Lerp(dayTimeSunIntensity, nightTimeSunIntensity, time);
+        flashlight.intensity = Mathf.Lerp(dayTimeFlashlightIntensity, nightTimeFlashlightIntensity, time);
+        dinoLight.intensity = Mathf.Lerp(dayTimeDinoLightIntensity, nightTimeDinoLightIntensity, time);
         
         var topColor = Color.Lerp(dayTimeTop, nightTimeTop, time);
         var bottomColor = Color.Lerp(dayTimeBottom, nightTimeBottom, time);
