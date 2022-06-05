@@ -1,12 +1,15 @@
-using System;
 using Helpers;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Game : Scenegleton<Game>
 {
     private State state = State.Playing;
 
     public static bool IsPlaying => Instance.state == State.Playing;
+
+
+    public UnityEvent<int> onGameOver;
 
 
     public static void Play()
@@ -17,6 +20,7 @@ public class Game : Scenegleton<Game>
     public static void GameOver()
     {
         Instance.state = State.GameOver;
+        Instance.onGameOver?.Invoke(ScoreCounter.Score);
     }
 
     private void Update()

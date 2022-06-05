@@ -10,15 +10,26 @@ namespace Obstacles
         [SerializeField] private Transform dino;
         [SerializeField] private Obstacle[] obstaclePrefabs;
 
-        [Header("Spawn Interval")]
-        [SerializeField, Min(0f)] private float minSpawnInterval;
-        [SerializeField, Min(0f)] private float maxSpawnInterval;
+        [Header("Spawn Distance")]
+        [SerializeField, Min(0f)] private float minSpawnDistance;
+        [SerializeField, Min(0f)] private float maxSpawnDistance;
 
         private ObstacleMover obstacleMover;
 
-        private float lastSpawn;
-        private float timer;
+        private Obstacle lastSpawnedObstacle;
+        private float nextDistance;
 
+
+        private bool CanSpawn
+        {
+            get
+            {
+                if (lastSpawnedObstacle is null) return true;
+
+                return transform.position.x - lastSpawnedObstacle.transform.position.x >= nextDistance;
+            }
+        }
+        
 
         private void Start()
         {
@@ -34,10 +45,10 @@ namespace Obstacles
 
         private bool TrySpawn()
         {
-            if (Time.time - lastSpawn < timer) return false;
+            if (!CanSpawn) return false;
             
             Spawn();
-            SetTimer();
+            SetNextDistance();
 
             return true;
         }
@@ -50,12 +61,12 @@ namespace Obstacles
             var newObstacle = Instantiate(randomObstacle, position, Quaternion.identity, transform);
             newObstacle.SetMover(obstacleMover);
 
-            lastSpawn = Time.time;
+            lastSpawnedObstacle = newObstacle;
         }
 
-        private void SetTimer()
+        private void SetNextDistance()
         {
-            timer = Random.Range(minSpawnInterval, maxSpawnInterval) / GlobalSpeed.Scale;
+            nextDistance = Random.Range(minSpawnDistance, maxSpawnDistance);
         }
     }
 }

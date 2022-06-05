@@ -1,14 +1,19 @@
 using Helpers;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ScoreCounter : Scenegleton<ScoreCounter>
 {
-    private const float ProgressToScore = 20f;
+    private const float ProgressToScore = 5f;
     
     private float score;
-    public float Score => Mathf.RoundToInt(score);
-    
-        
+    public static int Score => Mathf.RoundToInt(Instance.score);
+
+
+    public UnityEvent<int> onScoreChanged;
+    private void ScoreChanged(int newScore) => onScoreChanged?.Invoke(newScore);
+
+
     private void Update()
     {
         if (!Game.IsPlaying) return;
@@ -16,7 +21,7 @@ public class ScoreCounter : Scenegleton<ScoreCounter>
         var deltaProgress = GlobalSpeed.Scale * Time.deltaTime;
 
         score += deltaProgress * ProgressToScore;
-
-        Debug.Log(Score);
+        
+        ScoreChanged(Score);
     }
 }

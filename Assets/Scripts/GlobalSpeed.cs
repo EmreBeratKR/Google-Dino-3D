@@ -1,13 +1,21 @@
 using Helpers;
+using UnityEngine;
 
 public class GlobalSpeed : Scenegleton<GlobalSpeed>
 {
-    private float scale = 1f;
+    private const float BaseScale = 1f;
+    private const float DeltaTimeToDeltaScale = 0.01f;
 
-    public static float Scale => Instance is null ? 1f : Instance.scale;
+    private float scale = BaseScale;
 
-    public static void Change(float amount)
+    public static float Scale => Instance is null ? BaseScale : Instance.scale;
+
+
+    private void Update()
     {
-        Instance.scale += amount;
+        if (!Game.IsPlaying) return;
+        
+        var deltaScale = Time.deltaTime * DeltaTimeToDeltaScale;
+        scale += deltaScale;
     }
 }
