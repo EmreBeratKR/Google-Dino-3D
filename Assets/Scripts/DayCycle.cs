@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Light))]
@@ -9,7 +10,10 @@ public class DayCycle : MonoBehaviour
     [Header("Skybox")]
     [SerializeField] private Material dayTime;
     [SerializeField] private Material nightTime;
-    
+
+    [Header("Night Background")]
+    [SerializeField] private Transform nightBackground;
+
     [Header("Sun Intensity")]
     [SerializeField] private float dayTimeSunIntensity;
     [SerializeField] private float nightTimeSunIntensity;
@@ -23,16 +27,19 @@ public class DayCycle : MonoBehaviour
     [SerializeField] private Light dinoLight;
     [SerializeField] private float dayTimeDinoLightIntensity;
     [SerializeField] private float nightTimeDinoLightIntensity;
-    
-    [Space]
-    [SerializeField, Range(0f, 1f)] private float time;
 
+    [Header("Cycle Animation")]
+    [SerializeField] private float cycleSpeed;
+    
     private Light sun;
     
     private Color dayTimeTop;
     private Color dayTimeBottom;
     private Color nightTimeTop;
     private Color nightTimeBottom;
+    
+    private State state = State.DayTime;
+    private float time;
 
 
     private void Start()
@@ -43,10 +50,26 @@ public class DayCycle : MonoBehaviour
         dayTimeBottom = dayTime.GetColor(SkyboxBottom);
         nightTimeTop = nightTime.GetColor(SkyboxTop);
         nightTimeBottom = nightTime.GetColor(SkyboxBottom);
+        
+        SetDayTime();
     }
 
-    private void OnValidate()
+    [ContextMenu("Toggle Time")]
+    public void ToggleTime()
     {
+        if (state == State.DayTime)
+        {
+            SetNightTime();
+            return;
+        }
+        
+        SetDayTime();
+    }
+    
+    private void Lerp()
+    {
+        nightBackground.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, time);
+        
         sun.intensity = Mathf.Lerp(dayTimeSunIntensity, nightTimeSunIntensity, time);
         flashlight.intensity = Mathf.Lerp(dayTimeFlashlightIntensity, nightTimeFlashlightIntensity, time);
         dinoLight.intensity = Mathf.Lerp(dayTimeDinoLightIntensity, nightTimeDinoLightIntensity, time);
@@ -56,5 +79,62 @@ public class DayCycle : MonoBehaviour
         
         RenderSettings.skybox.SetColor(SkyboxTop, topColor);
         RenderSettings.skybox.SetColor(SkyboxBottom, bottomColor);
+    }
+
+    private void SetDayTime()
+    {
+        StartCoroutine(Animator());
+        
+        IEnumerator Animator()
+        {
+            while (true)
+            {
+                time -= Time.deltaTime * cycleSpeed;
+
+                if (time <= 0f)
+                {
+                    time = 0f;
+                    Lerp();
+                    state = State.DayTime;
+                    break;
+                }
+                
+                Lerp();
+                
+                yield return null;
+            }
+        }
+    }
+    
+    private void SetNightTime()
+    {
+        StartCoroutine(Animator());
+        
+        IEnumerator Animator()
+        {
+            while (true)
+            {
+                time += Time.deltaTime * cycleSpeed;
+
+                if (time >= 1f)
+                {
+                    time = 1f;
+                    Lerp();
+                    state = State.NightTime;
+                    break;
+                }
+                
+                Lerp();
+                
+                yield return null;
+            }
+        }
+    }
+
+
+    private enum State
+    {
+        DayTime,
+        NightTime
     }
 }
