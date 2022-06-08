@@ -9,7 +9,7 @@ namespace Obstacles
         [Header("References")]
         [SerializeField] private Transform dino;
         [SerializeField] private Obstacle[] cactusPrefabs;
-        [SerializeField] private Obstacle birdPrefab;
+        [SerializeField] private Obstacle[] birdPrefabs;
 
         [Header("Spawn Distance")]
         [SerializeField, Min(0f)] private float minSpawnDistance;
@@ -61,7 +61,9 @@ namespace Obstacles
         {
             var isBird = Random.Range(1, 101) <= birdPercent;
 
-            var randomObstacle = isBird ? birdPrefab : cactusPrefabs[Random.Range(0, cactusPrefabs.Length)];
+            var randomObstacle = isBird ?
+                birdPrefabs[Random.Range(0, birdPrefabs.Length)] :
+                cactusPrefabs[Random.Range(0, cactusPrefabs.Length)];
             
             var position = new Vector3(transform.position.x, 0f, dino.position.z);
 

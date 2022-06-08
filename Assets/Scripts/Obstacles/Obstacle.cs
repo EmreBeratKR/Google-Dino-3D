@@ -4,6 +4,8 @@ namespace Obstacles
 {
     public class Obstacle : MonoBehaviour
     {
+        [SerializeField] private float additionalSpeed;
+        
         private ObstacleMover mover;
 
 
@@ -26,7 +28,7 @@ namespace Obstacles
 
         private void Move()
         {
-            transform.position += Vector3.left * (Time.deltaTime * mover.Speed);
+            transform.position += Vector3.left * (Time.deltaTime * (mover.Speed + additionalSpeed));
         }
     }
 }

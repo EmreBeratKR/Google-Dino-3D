@@ -2893,8 +2893,10 @@ MonoBehaviour:
   - {fileID: 6556558291955258174, guid: 0842b1021dd314f2d9aecdf5ad462c48, type: 3}
   - {fileID: 3182309293070830749, guid: d758618e740d84c94ab60bbd0b83ec55, type: 3}
   - {fileID: 5671097294295528731, guid: c3bfd2d9b0f774c589d72f3848ed3211, type: 3}
-  birdPrefab: {fileID: 4986961985650627077, guid: 7d402e6d1d2354a9f8edad03fac56175,
-    type: 3}
+  birdPrefabs:
+  - {fileID: 4986961985650627077, guid: 7d402e6d1d2354a9f8edad03fac56175, type: 3}
+  - {fileID: 4986961985650627077, guid: 98a1867e3f6684d1caa9b26d7f857178, type: 3}
+  - {fileID: 4986961985650627077, guid: a264e32e698124dce8f6800e985065aa, type: 3}
   minSpawnDistance: 30
   maxSpawnDistance: 60
   birdPercent: 25
