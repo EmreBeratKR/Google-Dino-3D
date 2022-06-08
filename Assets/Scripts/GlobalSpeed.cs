@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GlobalSpeed : Scenegleton<GlobalSpeed>
 {
-    private const float BaseScale = 1f;
+    private const float BaseScale = 1.5f;
     private const float DeltaTimeToDeltaScale = 0.01f;
 
     private float scale = BaseScale;

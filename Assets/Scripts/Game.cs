@@ -4,9 +4,10 @@ using UnityEngine.Events;
 
 public class Game : Scenegleton<Game>
 {
-    private State state = State.Playing;
+    private State state = State.NotStarted;
 
     public static bool IsPlaying => Instance.state == State.Playing;
+    public static bool IsGameOver => Instance.state == State.GameOver;
 
 
     public UnityEvent<int> onGameOver;
@@ -25,7 +26,23 @@ public class Game : Scenegleton<Game>
 
     private void Update()
     {
-        if (IsPlaying) return;
+        TryPlay();
+        TryRestart();
+    }
+
+    private void TryPlay()
+    {
+        if (state != State.NotStarted) return;
+
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            Play();
+        }
+    }
+
+    private void TryRestart()
+    {
+        if (!IsGameOver) return;
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -36,6 +53,7 @@ public class Game : Scenegleton<Game>
 
     private enum State
     {
+        NotStarted,
         Playing,
         GameOver
     }
