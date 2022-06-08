@@ -6,7 +6,7 @@ namespace Dino
     public class DinoMovement : MonoBehaviour
     {
         [SerializeField] private DinoGroundChecker groundChecker;
-        [SerializeField] private BoxCollider tallCollider;
+        [SerializeField] private BoxCollider headCollider;
         [SerializeField] private float gravityScale;
         [SerializeField] private float jumpForce;
         
@@ -89,7 +89,7 @@ namespace Dino
         {
             var isCrouching = State == Dino.State.Crouch;
 
-            tallCollider.enabled = !isCrouching;
+            headCollider.enabled = !isCrouching;
         }
     }
 }
