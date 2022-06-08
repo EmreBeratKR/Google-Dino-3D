@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Dino
 {
@@ -10,6 +11,9 @@ namespace Dino
         [SerializeField] private BoxCollider headCollider;
         [SerializeField] private float gravityScale;
         [SerializeField] private float jumpForce;
+
+        public UnityEvent onJumped;
+        private void Jumped() => onJumped?.Invoke();
         
         private Rigidbody body;
 
@@ -100,6 +104,8 @@ namespace Dino
             if (!IsJump) return;
             
             body.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+            
+            Jumped();
         }
 
         private void Crouch()
