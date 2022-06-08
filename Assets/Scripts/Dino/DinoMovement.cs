@@ -6,6 +6,7 @@ namespace Dino
     public class DinoMovement : MonoBehaviour
     {
         [SerializeField] private DinoGroundChecker groundChecker;
+        [SerializeField] private ParticleSystem dustParticle;
         [SerializeField] private BoxCollider headCollider;
         [SerializeField] private float gravityScale;
         [SerializeField] private float jumpForce;
@@ -48,11 +49,27 @@ namespace Dino
         private void Update()
         {
             UpdateState();
+            UpdateDust();
             
             if (State == Dino.State.Idle) return;
             
             Jump();
             Crouch();
+        }
+        
+        private void UpdateDust()
+        {
+            if (Game.IsPlaying && groundChecker.IsGrounded)
+            {
+                if (dustParticle.isPlaying) return;
+                
+                dustParticle.Play();
+                return;
+            }
+            
+            if (dustParticle.isStopped) return;
+            
+            dustParticle.Stop();
         }
 
         private void UpdateState()

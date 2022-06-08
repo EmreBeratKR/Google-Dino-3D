@@ -4,8 +4,9 @@ using UnityEngine.Events;
 
 public class ScoreCounter : Scenegleton<ScoreCounter>
 {
-    private const float ProgressToScore = 10f;
+    private const float ProgressToScore = 8f;
     private const int Milestone = 500;
+    private const int SubMilestone = 100;
     
     private float score;
     private int lastScore;
@@ -17,6 +18,9 @@ public class ScoreCounter : Scenegleton<ScoreCounter>
 
     public UnityEvent onMilestoneReached;
     private void MilestoneReached() => onMilestoneReached?.Invoke();
+    
+    public UnityEvent onSubMilestoneReached;
+    private void SubMilestoneReached() => onSubMilestoneReached?.Invoke();
 
 
     private void Update()
@@ -29,6 +33,11 @@ public class ScoreCounter : Scenegleton<ScoreCounter>
         
         ScoreChanged(Score);
 
+        if (lastScore % SubMilestone > Score % SubMilestone)
+        {
+            SubMilestoneReached();
+        }
+        
         if (lastScore % Milestone > Score % Milestone)
         {
             MilestoneReached();

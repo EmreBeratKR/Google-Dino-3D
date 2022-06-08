@@ -7,11 +7,12 @@ namespace Obstacles
         [SerializeField] private float additionalSpeed;
         
         private ObstacleMover mover;
+        private float speed;
 
 
         private void Update()
         {
-            if (!Game.IsPlaying) return;
+            speed = Game.IsPlaying ? mover.Speed + additionalSpeed : additionalSpeed;
             
             Move();
         }
@@ -28,7 +29,7 @@ namespace Obstacles
 
         private void Move()
         {
-            transform.position += Vector3.left * (Time.deltaTime * (mover.Speed + additionalSpeed));
+            transform.position += Vector3.left * (Time.deltaTime * speed);
         }
     }
 }
