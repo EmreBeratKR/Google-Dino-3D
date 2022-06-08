@@ -7,9 +7,15 @@ namespace Dino
         [SerializeField] private ParticleSystem explosion;
         [SerializeField] private GameObject model;
         
+        private bool isDead;
+        
         
         public void Die()
         {
+            if (isDead) return;
+
+            isDead = true;
+            
             Destroy(model);
             explosion.Play();
         }

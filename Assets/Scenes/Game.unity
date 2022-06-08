@@ -17888,7 +17888,7 @@ MonoBehaviour:
   - {fileID: 4986961985650627077, guid: 7d402e6d1d2354a9f8edad03fac56175, type: 3}
   - {fileID: 4986961985650627077, guid: 98a1867e3f6684d1caa9b26d7f857178, type: 3}
   - {fileID: 4986961985650627077, guid: a264e32e698124dce8f6800e985065aa, type: 3}
-  minSpawnDistance: 30
+  minSpawnDistance: 40
   maxSpawnDistance: 60
   birdPercent: 25
 --- !u!114 &1928839731

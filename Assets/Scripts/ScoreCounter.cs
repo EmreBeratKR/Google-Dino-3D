@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 public class ScoreCounter : Scenegleton<ScoreCounter>
 {
-    private const float ProgressToScore = 8f;
+    private const float ProgressToScore = 5f;
     private const int Milestone = 500;
     private const int SubMilestone = 100;
     
